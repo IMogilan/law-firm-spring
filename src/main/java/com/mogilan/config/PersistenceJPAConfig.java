@@ -23,16 +23,16 @@ import java.util.Properties;
 @PropertySource("classpath:application.properties")
 public class PersistenceJPAConfig {
 
-    private static final String PACKAGES_TO_SCAN_KEY = "model.package";
-    private static final String DB_DRIVER_KEY = "db.driver";
-    private static final String DB_URL_KEY = "db.url";
-    private static final String DB_USER_KEY = "db.user";
-    private static final String DB_PASSWORD_KEY = "db.password";
-    private static final String HIBERNATE_CONNECTION_POOL_SIZE_KEY = "hibernate.connection.pool_size";
-    private static final String HIBERNATE_HBM_2_DDL_AUTO_KEY = "hibernate.hbm2ddl.auto";
-    private static final String HIBERNATE_DIALECT_KEY = "hibernate.dialect";
-    private static final String HIBERNATE_SHOW_SQL_KEY = "hibernate.show_sql";
-    private static final String HIBERNATE_FORMAT_SQL_KEY = "hibernate.format_sql";
+    public static final String PACKAGES_TO_SCAN_KEY = "model.package";
+    public static final String DB_DRIVER_KEY = "db.driver";
+    public static final String DB_URL_KEY = "db.url";
+    public static final String DB_USER_KEY = "db.user";
+    public static final String DB_PASSWORD_KEY = "db.password";
+    public static final String HIBERNATE_CONNECTION_POOL_SIZE_KEY = "hibernate.connection.pool_size";
+    public static final String HIBERNATE_HBM_2_DDL_AUTO_KEY = "hibernate.hbm2ddl.auto";
+    public static final String HIBERNATE_DIALECT_KEY = "hibernate.dialect";
+    public static final String HIBERNATE_SHOW_SQL_KEY = "hibernate.show_sql";
+    public static final String HIBERNATE_FORMAT_SQL_KEY = "hibernate.format_sql";
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {

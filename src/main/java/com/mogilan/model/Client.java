@@ -13,10 +13,16 @@ public class Client {
     private Long id;
     private String name;
     private String description;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "client")
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "client")
     private List<Task> tasks;
 
     public Client() {
+    }
+
+    public Client(String name, String description, List<Task> tasks) {
+        this.name = name;
+        this.description = description;
+        this.tasks = tasks;
     }
 
     public Client(Long id, String name, String description, List<Task> tasks) {

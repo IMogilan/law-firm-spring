@@ -1,4 +1,3 @@
--- Populate law_firms table
 
 -- Populate lawyers table
 INSERT INTO public.lawyers (first_name, last_name, job_title, hourly_rate)

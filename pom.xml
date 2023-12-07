@@ -78,7 +78,7 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.4.6</version>
+            <version>1.4.7</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.mapstruct/mapstruct -->
@@ -100,9 +100,10 @@
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>postgresql</artifactId>
-            <version>1.18.3</version>
+            <version>1.19.3</version>
             <scope>test</scope>
         </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>

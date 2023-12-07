@@ -3,7 +3,8 @@ package com.mogilan.repository;
 import com.mogilan.TestData;
 import com.mogilan.config.PersistenceJPAConfig;
 import com.mogilan.config.WebConfig;
-import com.mogilan.model.Client;
+import com.mogilan.model.Lawyer;
+import com.mogilan.model.Task;
 import com.mogilan.util.PropertiesUtil;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.*;
@@ -33,23 +34,26 @@ import java.util.Properties;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {WebConfig.class, ClientRepositoryTest.PersistenceJPATestConfig.class})
+@ContextConfiguration(classes = {WebConfig.class, LawyerRepositoryTest.PersistenceJPATestConfig.class})
 @WebAppConfiguration()
 @Transactional
-class ClientRepositoryTest {
+class LawyerRepositoryTest {
+
 
     @Autowired
     ClientRepository clientRepository;
     @Autowired
     TaskRepository taskRepository;
+    @Autowired
+    LawyerRepository lawyerRepository;
 
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(
             "postgres:15-alpine"
     );
 
-    private Client client1;
-    private Client client2;
-    private Client client3;
+    private Lawyer lawyer1;
+    private Lawyer lawyer2;
+    private Lawyer lawyer3;
 
 
     @BeforeAll
@@ -59,13 +63,14 @@ class ClientRepositoryTest {
 
     @BeforeEach
     void beforeEach() {
-        saveThreeClients();
+        saveThreeLawyers();
     }
 
     @AfterEach
     void afterEach() {
-        clientRepository.deleteAll();
         taskRepository.deleteAll();
+        clientRepository.deleteAll();
+        lawyerRepository.deleteAll();
     }
 
     @AfterAll
@@ -75,15 +80,15 @@ class ClientRepositoryTest {
 
     @Test
     void findAllSuccess() {
-        var actualResult = clientRepository.findAll();
+        var actualResult = lawyerRepository.findAll();
         assertThat(actualResult).isNotEmpty();
         assertThat(actualResult).hasSize(3);
     }
 
     @Test
     void findAllShouldReturnEmptyListIfTableEmpty() {
-        clientRepository.deleteAll();
-        var actualResult = clientRepository.findAll();
+        lawyerRepository.deleteAll();
+        var actualResult = lawyerRepository.findAll();
         assertThat(actualResult).isNotNull();
         assertThat(actualResult).isEmpty();
     }
@@ -91,117 +96,131 @@ class ClientRepositoryTest {
 
     @Test
     void findByIdSuccess() {
-        var actualResult = clientRepository.findById(client1.getId());
+        var actualResult = lawyerRepository.findById(lawyer1.getId());
 
         assertThat(actualResult).isNotNull();
         assertThat(actualResult).isPresent();
 
-        assertThat(actualResult.get().getName()).isEqualTo(client1.getName());
+        var lawyer = actualResult.get();
 
-        assertThat(actualResult.get().getTasks()).isNotNull();
-        assertThat(actualResult.get().getTasks()).hasSize(client1.getTasks().size());
+        assertThat(lawyer.getFirstName()).isEqualTo(lawyer1.getFirstName());
+        assertThat(lawyer.getLastName()).isEqualTo(lawyer1.getLastName());
+        assertThat(lawyer.getJobTitle()).isEqualTo(lawyer1.getJobTitle());
+
+        assertThat(lawyer.getTasks()).isNotNull();
+        assertThat(lawyer.getTasks()).hasSize(lawyer1.getTasks().size());
     }
 
     @Test
     void testFindByIdShouldReturnEmptyOptionalIfElementAbsent() {
-        var maxId = List.of(client1, client2, client3).stream()
-                .map(Client::getId)
+        var maxId = List.of(lawyer1, lawyer2, lawyer3).stream()
+                .map(Lawyer::getId)
                 .mapToLong(Long::valueOf)
                 .max().getAsLong();
         var id = maxId + 10;
-        var actualResult = clientRepository.findById(id);
+        var actualResult = lawyerRepository.findById(id);
         assertThat(actualResult).isNotNull();
         assertThat(actualResult).isEmpty();
     }
 
     @Test
     void saveSuccess() {
-        var prevListSize = clientRepository.findAll().size();
+        var prevListSize = lawyerRepository.findAll().size();
 
-        Client newClient = getNewClient();
-        var actualResult = clientRepository.save(newClient);
+        Lawyer newLawyer = getNewLawyer();
+
+        var actualResult = lawyerRepository.save(newLawyer);
         assertThat(actualResult).isNotNull();
         assertThat(actualResult.getId()).isNotNull();
         assertThat(actualResult.getTasks().size()).isEqualTo(2);
 
-        newClient.setId(actualResult.getId());
-        assertThat(actualResult).isEqualTo(newClient);
+        newLawyer.setId(actualResult.getId());
+        assertThat(actualResult).isEqualTo(newLawyer);
 
-        var newListSize = clientRepository.findAll().size();
+        var newListSize = lawyerRepository.findAll().size();
         assertThat(prevListSize + 1).isEqualTo(newListSize);
     }
 
     @Test
     void updateSuccess() {
-        Long id = client1.getId();
+        Long id = lawyer1.getId();
 
-        var prevListSize = clientRepository.findAll().size();
+        var prevListSize = lawyerRepository.findAll().size();
 
-        var clientById = clientRepository.findById(id);
-        assertThat(clientById).isPresent();
+        var lawyerById = lawyerRepository.findById(id);
+        assertThat(lawyerById).isPresent();
+        var lawyer = lawyerById.get();
 
-        var newDescription = "New description";
-        var newClient = new Client(id, client1.getName(), newDescription, null);
+        var newLastname = "New lastname";
+        lawyer.setLastName(newLastname);
+        lawyer.setTasks(null);
 
-        var updatedValue = clientRepository.save(newClient);
+        var updatedValue = lawyerRepository.save(lawyer);
         assertThat(updatedValue).isNotNull();
         assertThat(updatedValue.getId()).isEqualTo(id);
-        assertThat(updatedValue.getDescription()).isEqualTo(newDescription);
+        assertThat(updatedValue.getLastName()).isEqualTo(newLastname);
         assertThat(updatedValue.getTasks()).isEqualTo(null);
 
-        var newListSize = clientRepository.findAll().size();
+        var newListSize = lawyerRepository.findAll().size();
         assertThat(prevListSize).isEqualTo(newListSize);
     }
 
     @Test
     void deleteByIdSuccess() {
-        Long id = client1.getId();
+        Long id = lawyer1.getId();
 
-        var prevListSize = clientRepository.findAll().size();
+        var prevListSize = lawyerRepository.findAll().size();
 
-        var clientById = clientRepository.findById(id);
-        assertThat(clientById).isPresent();
+        var lawyerById = lawyerRepository.findById(id);
+        assertThat(lawyerById).isPresent();
 
-        clientRepository.deleteById(id);
+        lawyerRepository.deleteById(id);
 
-        var optional = clientRepository.findById(id);
+        var optional = lawyerRepository.findById(id);
         assertThat(optional).isEmpty();
 
-        var newListSize = clientRepository.findAll().size();
+        var newListSize = lawyerRepository.findAll().size();
         assertThat(prevListSize - 1).isEqualTo(newListSize);
     }
-
-    private void saveThreeClients() {
+    private void saveThreeLawyers() {
         var task1 = taskRepository.save(TestData.getTask1());
-        var task2 = taskRepository.save(TestData.getTask2());
-        var task3 = taskRepository.save(TestData.getTask3());
+        var task2 = taskRepository.save(TestData.getTask1());
+        var task3 = taskRepository.save(TestData.getTask1());
 
-        client1 = TestData.getClient1();
-        client2 = TestData.getClient2();
-        client3 = TestData.getClient3();
+        lawyer1 = TestData.getLawyer1();
+        lawyer2 = TestData.getLawyer2();
+        lawyer3 = TestData.getLawyer3();
 
-        client1.setTasks(List.of(task1));
-        client2.setTasks(List.of(task2));
-        client3.setTasks(List.of(task3));
+        lawyer1.setTasks(List.of(task1));
+        lawyer2.setTasks(List.of(task2));
+        lawyer3.setTasks(List.of(task3));
 
-        clientRepository.save(client1);
-        clientRepository.save(client2);
-        clientRepository.save(client3);
+        lawyerRepository.save(lawyer1);
+        lawyerRepository.save(lawyer2);
+        lawyerRepository.save(lawyer3);
     }
 
     @NotNull
-    private Client getNewClient() {
-        var task1 = taskRepository.save(TestData.getTask1());
-        var task2 = taskRepository.save(TestData.getTask2());
-        var newClient = new Client("New Client", "New Client", List.of(task1, task2));
-        return newClient;
+    private Lawyer getNewLawyer() {
+
+        var task1 = new Task();
+        task1.setTitle("Task1");
+        var task2 = new Task();
+        task2.setTitle("Task2");
+        task1 = taskRepository.save(task1);
+        task2 = taskRepository.save(task2);
+
+        var newLawyer = new Lawyer();
+        newLawyer.setFirstName("New Lawyer");
+        newLawyer.setTasks(List.of(task1, task2));
+
+        return newLawyer;
     }
 
     @Configuration
     @EnableJpaRepositories(basePackages = "com.mogilan.repository")
     @EnableTransactionManagement
     static class PersistenceJPATestConfig {
-
 
         @Bean
         public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
@@ -250,6 +269,7 @@ class ClientRepositoryTest {
 
             return properties;
         }
+
     }
 
 }

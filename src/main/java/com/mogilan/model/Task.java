@@ -36,6 +36,17 @@ public class Task {
     public Task() {
     }
 
+    public Task(String title, String description, TaskPriority priority, TaskStatus status, LocalDate receiptDate, LocalDate dueDate, LocalDate completionDate, double hoursSpentOnTask) {
+        this.title = title;
+        this.description = description;
+        this.priority = priority;
+        this.status = status;
+        this.receiptDate = receiptDate;
+        this.dueDate = dueDate;
+        this.completionDate = completionDate;
+        this.hoursSpentOnTask = hoursSpentOnTask;
+    }
+
     public Task(Long id, String title, String description, TaskPriority priority, TaskStatus status,
                 LocalDate receiptDate, LocalDate dueDate, LocalDate completionDate, double hoursSpentOnTask, Client client, List<Lawyer> lawyers) {
         this.id = id;

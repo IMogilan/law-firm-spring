@@ -25,6 +25,13 @@ public class Lawyer {
     public Lawyer() {
     }
 
+    public Lawyer(String firstName, String lastName, JobTitle jobTitle, double hourlyRate) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.jobTitle = jobTitle;
+        this.hourlyRate = hourlyRate;
+    }
+
     public Lawyer(Long id, String firstName, String lastName, JobTitle jobTitle, double hourlyRate, List<Task> tasks) {
         this.id = id;
         this.firstName = firstName;
