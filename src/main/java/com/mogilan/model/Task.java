@@ -47,21 +47,6 @@ public class Task {
         this.hoursSpentOnTask = hoursSpentOnTask;
     }
 
-    public Task(Long id, String title, String description, TaskPriority priority, TaskStatus status,
-                LocalDate receiptDate, LocalDate dueDate, LocalDate completionDate, double hoursSpentOnTask, Client client, List<Lawyer> lawyers) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.priority = priority;
-        this.status = status;
-        this.receiptDate = receiptDate;
-        this.dueDate = dueDate;
-        this.completionDate = completionDate;
-        this.hoursSpentOnTask = hoursSpentOnTask;
-        this.client = client;
-        this.lawyers = lawyers;
-    }
-
     public Long getId() {
         return id;
     }
@@ -161,20 +146,5 @@ public class Task {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getTitle(), getDescription(), getPriority(), getStatus(), getReceiptDate(), getDueDate(), getCompletionDate(), getHoursSpentOnTask());
-    }
-
-    @Override
-    public String toString() {
-        return "Task{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", priority=" + priority +
-                ", status=" + status +
-                ", receiptDate=" + receiptDate +
-                ", dueDate=" + dueDate +
-                ", completionDate=" + completionDate +
-                ", hoursSpentOnTask=" + hoursSpentOnTask +
-                '}';
     }
 }

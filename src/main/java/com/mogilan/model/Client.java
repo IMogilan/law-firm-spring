@@ -76,13 +76,4 @@ public class Client {
     public int hashCode() {
         return Objects.hash(getId(), getName(), getDescription());
     }
-
-    @Override
-    public String toString() {
-        return "Client{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                '}';
-    }
 }

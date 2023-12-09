@@ -32,15 +32,6 @@ public class Lawyer {
         this.hourlyRate = hourlyRate;
     }
 
-    public Lawyer(Long id, String firstName, String lastName, JobTitle jobTitle, double hourlyRate, List<Task> tasks) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.jobTitle = jobTitle;
-        this.hourlyRate = hourlyRate;
-        this.tasks = tasks;
-    }
-
     public Long getId() {
         return id;
     }
@@ -100,16 +91,5 @@ public class Lawyer {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getFirstName(), getLastName(), getJobTitle(), getHourlyRate());
-    }
-
-    @Override
-    public String toString() {
-        return "Lawyer{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", jobTitle=" + jobTitle +
-                ", hourlyRate=" + hourlyRate +
-                '}';
     }
 }
