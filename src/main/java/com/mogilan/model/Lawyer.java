@@ -11,10 +11,16 @@ import java.util.Objects;
 public class Lawyer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+    @Column(name = "first_name", nullable = false)
     private String firstName;
+    @Column(name = "last_name", nullable = false)
     private String lastName;
+    @Column(name = "job_title", nullable = false)
+    @Enumerated(EnumType.STRING)
     private JobTitle jobTitle;
+    @Column(name = "hourly_rate", nullable = false)
     private double hourlyRate;
     @ManyToMany
     @JoinTable(name = "lawyers_tasks",

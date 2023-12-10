@@ -13,16 +13,25 @@ import java.util.Objects;
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+    @Column(name = "title", nullable = false)
     private String title;
+    @Column(name = "description", nullable = false)
     private String description;
     @Enumerated(EnumType.STRING)
+    @Column(name = "priority", nullable = false)
     private TaskPriority priority;
     @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
     private TaskStatus status;
+    @Column(name = "receipt_date", nullable = false)
     private LocalDate receiptDate;
+    @Column(name = "due_date", nullable = false)
     private LocalDate dueDate;
+    @Column(name = "completion_date")
     private LocalDate completionDate;
+    @Column(name = "hours_spent_on_task")
     private double hoursSpentOnTask;
     @ManyToOne
     @JoinColumn(name = "client_id")

@@ -7,10 +7,9 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(uses = SimpleTaskMapper.class)
+@Mapper(componentModel = "spring",
+        uses = SimpleTaskMapper.class)
 public interface ClientMapper {
-
-    ClientMapper INSTANCE = Mappers.getMapper(ClientMapper.class);
 
     ClientDto toDto(Client entity);
 

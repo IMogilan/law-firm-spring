@@ -3,6 +3,9 @@ package com.mogilan.repository;
 import com.mogilan.TestData;
 import com.mogilan.config.PersistenceJPAConfig;
 import com.mogilan.config.WebConfig;
+import com.mogilan.dto.JobTitle;
+import com.mogilan.dto.TaskPriority;
+import com.mogilan.dto.TaskStatus;
 import com.mogilan.model.Lawyer;
 import com.mogilan.model.Task;
 import com.mogilan.util.PropertiesUtil;
@@ -28,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 import javax.sql.DataSource;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Properties;
 
@@ -182,6 +186,14 @@ class LawyerRepositoryTest {
         var newListSize = lawyerRepository.findAll().size();
         assertThat(prevListSize - 1).isEqualTo(newListSize);
     }
+
+    @Test
+    void existsByIdSuccess(){
+        var actualResult = lawyerRepository.existsById(lawyer1.getId());
+
+        Assertions.assertTrue(actualResult);
+    }
+
     private void saveThreeLawyers() {
         var task1 = taskRepository.save(TestData.getTask1());
         var task2 = taskRepository.save(TestData.getTask1());
@@ -203,15 +215,16 @@ class LawyerRepositoryTest {
     @NotNull
     private Lawyer getNewLawyer() {
 
-        var task1 = new Task();
-        task1.setTitle("Task1");
-        var task2 = new Task();
-        task2.setTitle("Task2");
+        var task1 = new Task("New Task 1", "New Task 1", TaskPriority.LOW, TaskStatus.ACCEPTED,
+                LocalDate.of(2023, 12, 12),LocalDate.of(2023, 12, 22),
+                null, 0);;
+        var task2 = new Task("New Task 2", "New Task 2", TaskPriority.LOW, TaskStatus.ACCEPTED,
+                LocalDate.of(2023, 12, 12),LocalDate.of(2023, 12, 22),
+                null, 0);
         task1 = taskRepository.save(task1);
         task2 = taskRepository.save(task2);
 
-        var newLawyer = new Lawyer();
-        newLawyer.setFirstName("New Lawyer");
+        var newLawyer = new Lawyer("Lawyer1", "Lawyer1", JobTitle.ASSOCIATE,100.0);
         newLawyer.setTasks(List.of(task1, task2));
 
         return newLawyer;

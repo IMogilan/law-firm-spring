@@ -10,10 +10,13 @@ import java.util.Objects;
 public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+    @Column(name = "name", unique = true, nullable = false)
     private String name;
+    @Column(name = "description", unique = true)
     private String description;
-    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "client")
+    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.REMOVE}, mappedBy = "client")
     private List<Task> tasks;
 
     public Client() {

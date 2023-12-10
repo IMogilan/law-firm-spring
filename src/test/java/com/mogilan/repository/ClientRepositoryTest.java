@@ -171,6 +171,13 @@ class ClientRepositoryTest {
         assertThat(prevListSize - 1).isEqualTo(newListSize);
     }
 
+    @Test
+    void existsByIdSuccess(){
+        var actualResult = clientRepository.existsById(client1.getId());
+
+        Assertions.assertTrue(actualResult);
+    }
+
     private void saveThreeClients() {
         var task1 = taskRepository.save(TestData.getTask1());
         var task2 = taskRepository.save(TestData.getTask2());

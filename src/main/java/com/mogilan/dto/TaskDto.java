@@ -1,5 +1,7 @@
 package com.mogilan.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -10,9 +12,11 @@ public class TaskDto {
     private String description;
     private TaskPriority priority;
     private TaskStatus status;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate receiptDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dueDate;
-
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate completionDate;
     private double hoursSpentOnTask;
     private SimpleClientDto client;
