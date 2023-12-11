@@ -39,7 +39,7 @@ import java.util.Properties;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {WebConfig.class, TaskRepositoryTest.PersistenceJPATestConfig.class})
+@ContextConfiguration(classes = {WebConfig.class, TaskRepositoryTest.PersistenceJPATestContainerConfig.class})
 @WebAppConfiguration()
 @Transactional
 class TaskRepositoryTest {
@@ -245,7 +245,7 @@ class TaskRepositoryTest {
     @Configuration
     @EnableJpaRepositories(basePackages = "com.mogilan.repository")
     @EnableTransactionManagement
-    static class PersistenceJPATestConfig {
+    static class PersistenceJPATestContainerConfig {
 
         @Bean
         public LocalContainerEntityManagerFactoryBean entityManagerFactory() {

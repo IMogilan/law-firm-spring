@@ -3,6 +3,7 @@ package com.mogilan.mapper;
 import com.mogilan.TestData;
 
 import com.mogilan.config.WebConfig;
+import com.mogilan.PersistenceJPATestConfig;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = WebConfig.class)
+@ContextConfiguration(classes = {WebConfig.class, PersistenceJPATestConfig.class})
 @WebAppConfiguration()
 class TaskMapperTest {
 

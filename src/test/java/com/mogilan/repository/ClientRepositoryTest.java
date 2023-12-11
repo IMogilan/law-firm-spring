@@ -33,7 +33,7 @@ import java.util.Properties;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {WebConfig.class, ClientRepositoryTest.PersistenceJPATestConfig.class})
+@ContextConfiguration(classes = {WebConfig.class, ClientRepositoryTest.PersistenceJPATestContainerConfig.class})
 @WebAppConfiguration()
 @Transactional
 class ClientRepositoryTest {
@@ -207,7 +207,7 @@ class ClientRepositoryTest {
     @Configuration
     @EnableJpaRepositories(basePackages = "com.mogilan.repository")
     @EnableTransactionManagement
-    static class PersistenceJPATestConfig {
+    static class PersistenceJPATestContainerConfig {
 
 
         @Bean
