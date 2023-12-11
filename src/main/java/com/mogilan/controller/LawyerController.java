@@ -14,6 +14,8 @@ import java.net.URISyntaxException;
 public class LawyerController {
 
     private final LawyerService lawyerService;
+    public static final String UPDATED_MESSAGE = "Updated";
+    public static final String DELETED_MESSAGE = "Deleted";
 
     @Autowired
     public LawyerController(LawyerService lawyerService) {
@@ -40,12 +42,12 @@ public class LawyerController {
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody LawyerDto dto) {
         lawyerService.update(id, dto);
-        return ResponseEntity.ok("Updated");
+        return ResponseEntity.ok(UPDATED_MESSAGE);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteById(@PathVariable("id") Long id){
         lawyerService.deleteById(id);
-        return ResponseEntity.ok("Deleted");
+        return ResponseEntity.ok(DELETED_MESSAGE);
     }
 }

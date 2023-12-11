@@ -14,6 +14,8 @@ import java.net.URISyntaxException;
 public class TaskController {
 
     private final TaskService taskService;
+    public static final String UPDATED_MESSAGE = "Updated";
+    public static final String DELETED_MESSAGE = "Deleted";
 
     @Autowired
     public TaskController(TaskService taskService) {
