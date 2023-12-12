@@ -3,6 +3,7 @@ package com.mogilan.config;
 import com.mogilan.PersistenceJPATestConfig;
 import com.mogilan.util.PropertiesUtil;
 import jakarta.servlet.ServletContext;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -32,7 +33,28 @@ class PersistenceJPAConfigTest {
     private static final Properties PROPERTIES = new Properties();
 
     static {
+        overridePropertiesByTestProperties();
+    }
+
+    @AfterAll
+    static void afterAll(){
+        returnDefaultProperties();
+    }
+
+    private static void overridePropertiesByTestProperties() {
         try (var inputStream = PersistenceJPAConfigTest.class.getClassLoader().getResourceAsStream("test-application.properties")) {
+            PROPERTIES.load(inputStream);
+            Field field = PropertiesUtil.class.getDeclaredField("PROPERTIES");
+            field.setAccessible(true);
+
+            field.set(PropertiesUtil.class, PROPERTIES);
+        } catch (IOException | NoSuchFieldException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static void returnDefaultProperties() {
+        try (var inputStream = PersistenceJPAConfigTest.class.getClassLoader().getResourceAsStream("application.properties")) {
             PROPERTIES.load(inputStream);
             Field field = PropertiesUtil.class.getDeclaredField("PROPERTIES");
             field.setAccessible(true);
