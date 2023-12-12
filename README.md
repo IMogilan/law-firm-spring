@@ -9,7 +9,7 @@
 
 # HOT TO RUN TESTS
 # 1. START DOCKER
-# 2. Execute "mvn clean test" in command line
+# 2. Execute "./mvnw clean test" in command line
 
 # Эндпоинт	        	        Метод	Описание
 # /api/clients/			        GET	    Получение списка всех клиентов
